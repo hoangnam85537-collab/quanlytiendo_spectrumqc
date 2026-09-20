@@ -1,5 +1,5 @@
 import os
-import gdown
+from supabase import create_client, Client
 import io
 import json
 import sqlite3
@@ -19,17 +19,13 @@ from google.genai import types
 # 1. CẤU HÌNH ĐƯỜNG DẪN & CƠ SỞ DỮ LIỆU
 # ==========================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# ==========================================
+# CẤU HÌNH KẾT NỐI SUPABASE CLOUD
+# ==========================================
+SUPABASE_URL = st.secrets.get("SUPABASE_URL", os.environ.get("SUPABASE_URL", "https://tkzfoptvjbhyqgeazngt.supabase.co"))
+SUPABASE_ANON_KEY = st.secrets.get("SUPABASE_ANON_KEY", os.environ.get("SUPABASE_ANON_KEY", ""))
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-# Tự động tải thư mục DATA_PHANMEMQUANLY từ Google Drive nếu trên mây chưa có
-drive_folder_name = "DATA_PHANMEMQUANLY"
-if not os.path.exists(os.path.join(BASE_DIR, drive_folder_name, "TIEN DO DU AN")):
-    FOLDER_ID = "1fmxMj1Ph6E9lu9u0qrUfNpDKlHBF_ao7"
-    url = f"https://drive.google.com/drive/folders/{FOLDER_ID}"
-    gdown.download_folder(url, output=BASE_DIR, quiet=False, use_cookies=False)
-
-# Trỏ BASE_DIR vào đúng thư mục dữ liệu vừa tải về từ Drive
-if os.path.exists(os.path.join(BASE_DIR, drive_folder_name, "TIEN DO DU AN")):
-    BASE_DIR = os.path.join(BASE_DIR, drive_folder_name)
 
 FOLDER_TIEN_DO = os.path.join(BASE_DIR, "TIEN DO DU AN")
 FOLDER_REPORT = os.path.join(BASE_DIR, "report bao cao tu dien")
