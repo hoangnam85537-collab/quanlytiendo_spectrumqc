@@ -1,8 +1,8 @@
 streamlit
 pandas
 plotly
-openpyxl
-pydantic
+supabase
 google-genai
 pillow
+pydantic
 gdown
