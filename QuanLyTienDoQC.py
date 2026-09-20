@@ -1,4 +1,5 @@
 import os
+import gdown
 import io
 import json
 import sqlite3
@@ -27,7 +28,10 @@ FOLDER_TB_TEST = os.path.join(BASE_DIR, "QUAN L. THIẾT BỊ TEST")
 FOLDER_DANH_SACH_TU = os.path.join(BASE_DIR, "DANH SÁCH TỦ DỰ ÁN")
 FOLDER_HANG_THIEU = os.path.join(BASE_DIR, "danh sách hàng thiếu")
 FILE_CHECKLIST_DEFAULT = os.path.join(FOLDER_HANG_THIEU, "Checklist_HN-2026.xlsx")
-
+FOLDER_ID = "1fmxMj1Ph6E9lu9u0qrUfNpDKlHBF_ao7"
+if not os.path.exists(FOLDER_TIEN_DO):
+    url = f"https://drive.google.com/drive/folders/{FOLDER_ID}"
+    gdown.download_folder(url, output=".", quiet=False, use_cookies=False)
 for folder in [BASE_DIR, FOLDER_TIEN_DO, FOLDER_REPORT, FOLDER_DB, FOLDER_TB_TEST, FOLDER_DANH_SACH_TU, FOLDER_HANG_THIEU]:
     os.makedirs(folder, exist_ok=True)
 
