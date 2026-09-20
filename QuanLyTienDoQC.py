@@ -19,6 +19,18 @@ from google.genai import types
 # 1. CẤU HÌNH ĐƯỜNG DẪN & CƠ SỞ DỮ LIỆU
 # ==========================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Tự động tải thư mục DATA_PHANMEMQUANLY từ Google Drive nếu trên mây chưa có
+drive_folder_name = "DATA_PHANMEMQUANLY"
+if not os.path.exists(os.path.join(BASE_DIR, drive_folder_name, "TIEN DO DU AN")):
+    FOLDER_ID = "1fmxMj1Ph6E9lu9u0qrUfNpDKlHBF_ao7"
+    url = f"https://drive.google.com/drive/folders/{FOLDER_ID}"
+    gdown.download_folder(url, output=BASE_DIR, quiet=False, use_cookies=False)
+
+# Trỏ BASE_DIR vào đúng thư mục dữ liệu vừa tải về từ Drive
+if os.path.exists(os.path.join(BASE_DIR, drive_folder_name, "TIEN DO DU AN")):
+    BASE_DIR = os.path.join(BASE_DIR, drive_folder_name)
+
 FOLDER_TIEN_DO = os.path.join(BASE_DIR, "TIEN DO DU AN")
 FOLDER_REPORT = os.path.join(BASE_DIR, "report bao cao tu dien")
 FOLDER_DB = os.path.join(BASE_DIR, "DATABASE")
@@ -28,10 +40,7 @@ FOLDER_TB_TEST = os.path.join(BASE_DIR, "QUAN L. THIẾT BỊ TEST")
 FOLDER_DANH_SACH_TU = os.path.join(BASE_DIR, "DANH SÁCH TỦ DỰ ÁN")
 FOLDER_HANG_THIEU = os.path.join(BASE_DIR, "danh sách hàng thiếu")
 FILE_CHECKLIST_DEFAULT = os.path.join(FOLDER_HANG_THIEU, "Checklist_HN-2026.xlsx")
-FOLDER_ID = "1fmxMj1Ph6E9lu9u0qrUfNpDKlHBF_ao7"
-if not os.path.exists(FOLDER_TIEN_DO):
-    url = f"https://drive.google.com/drive/folders/{FOLDER_ID}"
-    gdown.download_folder(url, output=".", quiet=False, use_cookies=False)
+
 for folder in [BASE_DIR, FOLDER_TIEN_DO, FOLDER_REPORT, FOLDER_DB, FOLDER_TB_TEST, FOLDER_DANH_SACH_TU, FOLDER_HANG_THIEU]:
     os.makedirs(folder, exist_ok=True)
 
