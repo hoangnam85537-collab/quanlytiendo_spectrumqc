@@ -32,20 +32,24 @@ def get_bien_ban_qc_from_cloud():
     try:
         response = supabase.table("bien_ban_qc").select("*").execute()
         if response.data:
-            return pd.DataFrame(response.data)
+            df = pd.DataFrame(response.data)
+            # Chuẩn hóa tên cột thành chữ thường không dấu để khớp với code
+            df.columns = [str(c).strip().lower() for c in df.columns]
+            return df
     except Exception as e:
-        st.error(f"Lỗi kết nối bảng QC Supabase: {e}")
+        st.error(f"Lỗi tải QC: {e}")
     return pd.DataFrame()
 
 def get_tien_do_from_cloud():
     try:
         response = supabase.table("tien_do_du_an").select("*").execute()
         if response.data:
-            return pd.DataFrame(response.data)
+            df = pd.DataFrame(response.data)
+            df.columns = [str(c).strip().lower() for c in df.columns]
+            return df
     except Exception as e:
-        st.error(f"Lỗi kết nối bảng Tiến độ Supabase: {e}")
+        st.error(f"Lỗi tải tiến độ: {e}")
     return pd.DataFrame()
-
 FOLDER_TIEN_DO = os.path.join(BASE_DIR, "TIEN DO DU AN")
 FOLDER_REPORT = os.path.join(BASE_DIR, "report bao cao tu dien")
 FOLDER_DB = os.path.join(BASE_DIR, "DATABASE")
