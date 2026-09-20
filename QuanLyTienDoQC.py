@@ -72,7 +72,7 @@ def init_db():
     """Khởi tạo CSDL SQLite"""
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute('''S
+        cursor.execute('''
         CREATE TABLE IF NOT EXISTS bien_ban_qc (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             ma_tu TEXT UNIQUE,
