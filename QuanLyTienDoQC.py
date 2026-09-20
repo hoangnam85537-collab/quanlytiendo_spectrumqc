@@ -25,7 +25,26 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SUPABASE_URL = st.secrets.get("SUPABASE_URL", os.environ.get("SUPABASE_URL", "https://tkzfoptvjbhyqgeazngt.supabase.co"))
 SUPABASE_ANON_KEY = st.secrets.get("SUPABASE_ANON_KEY", os.environ.get("SUPABASE_ANON_KEY", ""))
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+# ==========================================
+# HÀM LẤY DỮ LIỆU TỪ SUPABASE CLOUD
+# ==========================================
+def get_bien_ban_qc_from_cloud():
+    try:
+        response = supabase.table("bien_ban_qc").select("*").execute()
+        if response.data:
+            return pd.DataFrame(response.data)
+    except Exception as e:
+        st.error(f"Lỗi kết nối bảng QC Supabase: {e}")
+    return pd.DataFrame()
 
+def get_tien_do_from_cloud():
+    try:
+        response = supabase.table("tien_do_du_an").select("*").execute()
+        if response.data:
+            return pd.DataFrame(response.data)
+    except Exception as e:
+        st.error(f"Lỗi kết nối bảng Tiến độ Supabase: {e}")
+    return pd.DataFrame()
 
 FOLDER_TIEN_DO = os.path.join(BASE_DIR, "TIEN DO DU AN")
 FOLDER_REPORT = os.path.join(BASE_DIR, "report bao cao tu dien")
@@ -53,7 +72,7 @@ def init_db():
     """Khởi tạo CSDL SQLite"""
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute('''
+        cursor.execute('''S
         CREATE TABLE IF NOT EXISTS bien_ban_qc (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             ma_tu TEXT UNIQUE,
@@ -101,6 +120,10 @@ def init_db():
         conn.commit()
 
 init_db()
+
+# Gọi trực tiếp dữ liệu từ Supabase Cloud cho ứng dụng
+df_bien_ban = get_bien_ban_qc_from_cloud()
+df_tien_do = get_tien_do_from_cloud()
 
 def clean_str_key(s):
     """Hàm chuẩn hóa chuỗi để so sánh mã tủ chính xác hơn"""
