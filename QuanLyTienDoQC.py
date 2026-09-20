@@ -17,12 +17,12 @@ from google.genai import types
 # ==========================================
 # 1. CẤU HÌNH ĐƯỜNG DẪN & CƠ SỞ DỮ LIỆU
 # ==========================================
-BASE_DIR = r"D:\DATA_PHANMEMQUANLY"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FOLDER_TIEN_DO = os.path.join(BASE_DIR, "TIEN DO DU AN")
 FOLDER_REPORT = os.path.join(BASE_DIR, "report bao cao tu dien")
 FOLDER_DB = os.path.join(BASE_DIR, "DATABASE")
 DB_PATH = os.path.join(FOLDER_DB, "qc_database.db")
-FOLDER_TB_TEST = r"D:\QUẢN L. THIẾT BỊ TEST"
+FOLDER_TB_TEST = os.path.join(BASE_DIR, "QUAN L. THIẾT BỊ TEST")
 
 FOLDER_DANH_SACH_TU = os.path.join(BASE_DIR, "DANH SÁCH TỦ DỰ ÁN")
 FOLDER_HANG_THIEU = os.path.join(BASE_DIR, "danh sách hàng thiếu")
