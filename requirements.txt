@@ -2,6 +2,7 @@ streamlit
 pandas
 plotly
 openpyxl
-google-genai
 pydantic
-Pillow
+google-genai
+pillow
+gdown
